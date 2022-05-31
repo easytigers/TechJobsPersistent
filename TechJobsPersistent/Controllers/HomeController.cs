@@ -47,9 +47,9 @@ namespace TechJobsPersistent.Controllers
                     Name = addJobViewModel.Name,
                     EmployerId = addJobViewModel.EmployerId,
                     Employer = context.Employers.Find(addJobViewModel.EmployerId),
-                    JobSkills = new List<JobSkill>()
                 };
 
+                //if there is issue, try for int i loop length 
                 foreach (string skill in selectedSkills)
                 {
                     JobSkill newJobSkill = new JobSkill
@@ -58,15 +58,15 @@ namespace TechJobsPersistent.Controllers
                         Job = newJob,
                         SkillId = int.Parse(skill)
                     };
-                    newJob.JobSkills.Add(newJobSkill);
+                    context.JobSkills.Add(newJobSkill); //
                 }
                 
             context.Jobs.Add(newJob);
             context.SaveChanges();
 
-            return Redirect("/Home");
+            return Redirect("Index");
         }
-            return View(addJobViewModel);
+            return View("Add", addJobViewModel);
         }
 
         public IActionResult Detail(int id)
